@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <title>Dashboard</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: Arial, sans-serif; background:#f9fafb; margin:0; }
+    .top { background:#111827; color:#fff; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; }
+    .wrap { padding:24px; max-width:900px; margin:auto; }
+    .badge { background:#e5e7eb; padding:6px 10px; border-radius:6px; display:inline-block; margin-bottom:16px; }
+    a { text-decoration:none; }
+    .token { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; word-break: break-all;
+             background:#fff; border:1px solid #eee; padding:12px; border-radius:8px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; margin-top:24px; }
+    .card { background:#fff; border-radius:12px; padding:20px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,.06); transition:transform .15s; }
+    .card:hover { transform:translateY(-3px); }
+    .card h3 { margin:10px 0; color:#111827; }
+    .card p { color:#6b7280; font-size:14px; }
+    .card button { margin-top:12px; background:#111827; color:#fff; border:none; padding:8px 14px; border-radius:6px; cursor:pointer; }
+    .btn-dashboard { background:#2563eb; color:#fff; padding:8px 14px; border-radius:8px; text-decoration:none; margin-right:10px; }
+    
+    /* User info styles */
+    .user-info {
+      background: linear-gradient(135deg, #3ecf8e 0%, #2dd4aa 100%);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 4px 12px rgba(62, 207, 142, 0.2);
+    }
+    
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+    }
+    
+    .avatar-icon {
+      font-size: 24px;
+      color: #ffffff;
+    }
+    
+    .user-details {
+      flex: 1;
+    }
+    
+    .user-name {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 0.25rem;
+    }
+    
+    .user-status {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .user-status::before {
+      content: '●';
+      color: #10b981;
+      font-size: 0.75rem;
+    }
+    
+    /* Token section styles */
+    .token-section {
+      background: #1a1a1a;
+      border: 1px solid #3a3a3a;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .token-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .token-header h3 {
+      color: #ffffff;
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .copy-token-btn {
+      background: #3ecf8e;
+      color: #000000;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .copy-token-btn:hover {
+      background: #2dd4aa;
+      transform: translateY(-1px);
+    }
+    
+    .token-display {
+      background: #0a0a0a;
+      border: 1px solid #3a3a3a;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      overflow-x: auto;
+    }
+    
+    .token-text {
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      color: #3ecf8e;
+      word-break: break-all;
+      line-height: 1.4;
+      margin: 0;
+    }
+    
+    .token-info {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.875rem;
+      color: #a0a0a0;
+    }
+    
+    .token-label {
+      font-weight: 500;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <div>🏠 Dashboard</div>
+    <div>
+      <a href="/logout" style="color:#fff; text-decoration:none;">Logout</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="user-info">
+      <div class="user-avatar">
+        <div class="avatar-icon">👤</div>
+      </div>
+      <div class="user-details">
+        <div class="user-name">{{ user.email }}</div>
+        <div class="user-status">Online</div>
+      </div>
+    </div>
+
+    <h2>Supabase Local Services</h2>
+    <div class="grid">
+      <!-- Core Services -->
+      <div class="card">
+        <h3>🧩 Supabase Studio</h3>
+        <p>Interface to manage your project and view data.</p>
+        <button onclick="window.location.href='/goto/studio'">Open</button>
+      </div>
+
+      <div class="card">
+        <h3>🔐 Auth API (GoTrue)</h3>
+        <p>User authentication service.</p>
+        <button onclick="window.location.href='/goto/auth'">Open</button>
+      </div>
+
+      <div class="card">
+        <h3>🧾 REST API (PostgREST)</h3>
+        <p>REST access to database tables.</p>
+        <button onclick="window.location.href='/goto/rest'">Open</button>
+      </div>
+
+      <div class="card">
+        <h3>📦 Storage API</h3>
+        <p>File upload and management service.</p>
+        <button onclick="window.location.href='/goto/storage'">Open</button>
+      </div>
+
+      <div class="card">
+        <h3>⚡ Realtime</h3>
+        <p>Real-time data streaming websocket service.</p>
+        <button onclick="window.location.href='/goto/realtime'">Open</button>
+      </div>
+
+      <div class="card">
+        <h3>🚀 Edge Functions</h3>
+        <p>Serverless function execution service.</p>
+        <button onclick="window.location.href='/goto/functions'">Open</button>
+      </div>
+
+      <!-- Infrastructure Services -->
+      <div class="card">
+        <h3>🐘 PostgreSQL</h3>
+        <p>Main database service.</p>
+        <button onclick="window.location.href='/goto/postgres'">Open</button>
+      </div>
+
+      <div class="card">
+        <h3>🌐 Kong Gateway</h3>
+        <p>API gateway and proxy service.</p>
+        <button onclick="window.location.href='/goto/kong'">Open</button>
+      </div>
+
+      <div class="card">
+        <h3>📊 Analytics (Logflare)</h3>
+        <p>Log analysis and monitoring service.</p>
+        <button onclick="window.location.href='/goto/analytics'">Open</button>
+      </div>
+
+      <div class="card">
+        <h3>🖼️ Image Proxy</h3>
+        <p>Image processing and optimization service.</p>
+        <button onclick="window.location.href='/goto/imgproxy'">Open</button>
+      </div>
+
+      <div class="card">
+        <h3>🔍 Vector Search</h3>
+        <p>Vector-based search service.</p>
+        <button onclick="window.location.href='/goto/vector'">Open</button>
+      </div>
+
+      <div class="card">
+        <h3>🔗 Connection Pooler</h3>
+        <p>Database connection pool service.</p>
+        <button onclick="window.location.href='/goto/pooler'">Open</button>
+      </div>
+    </div>
+
+    <div class="token-section">
+      <div class="token-header">
+        <h3>🔑 Access Token</h3>
+        <button class="copy-token-btn" onclick="copyToken()">Copy</button>
+      </div>
+      <div class="token-display">
+        <code class="token-text">{{ user.access_token }}</code>
+      </div>
+      <div class="token-info">
+        <span class="token-label">Token Type:</span> {{ user.token_type|title }}
+        <span class="token-label">Expires:</span> {{ user.expires_in }}s
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function copyToken() {
+      const tokenText = document.querySelector('.token-text').textContent;
+      
+      navigator.clipboard.writeText(tokenText).then(() => {
+        // Show success message
+        const button = document.querySelector('.copy-token-btn');
+        const originalText = button.textContent;
+        button.textContent = 'Copied!';
+        button.style.background = '#10b981';
+        
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.style.background = '#3ecf8e';
+        }, 2000);
+      }).catch(() => {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = tokenText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        
+        // Show success message
+        const button = document.querySelector('.copy-token-btn');
+        const originalText = button.textContent;
+        button.textContent = 'Copied!';
+        button.style.background = '#10b981';
+        
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.style.background = '#3ecf8e';
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

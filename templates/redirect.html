@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <title>Redirecting...</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 2rem;
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            background: #3ecf8e;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .card {
+            background: #2a2a2a;
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid #3a3a3a;
+            margin-bottom: 1rem;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            color: #a0a0a0;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .loading-section {
+            background: #1a1a1a;
+            border: 1px solid #3a3a3a;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #3a3a3a;
+            border-radius: 50%;
+            border-top-color: #3ecf8e;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: #3ecf8e;
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .countdown {
+            color: #a0a0a0;
+            font-size: 0.875rem;
+        }
+
+        .success-section {
+            background: #065f46;
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .success-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-text {
+            color: #10b981;
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+
+        .error-section {
+            background: #7f1d1d;
+            border: 1px solid #ef4444;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .error-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .error-text {
+            color: #ef4444;
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .button {
+            background: #3ecf8e;
+            color: #000000;
+            border: none;
+            border-radius: 8px;
+            padding: 0.875rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .button:hover {
+            background: #2dd4aa;
+            transform: translateY(-1px);
+        }
+
+        .button.secondary {
+            background: #374151;
+            color: #ffffff;
+        }
+
+        .button.secondary:hover {
+            background: #4b5563;
+        }
+
+        .button.danger {
+            background: #dc2626;
+            color: #ffffff;
+        }
+
+        .button.danger:hover {
+            background: #ef4444;
+        }
+
+        .url-display {
+            background: #1a1a1a;
+            border: 1px solid #3a3a3a;
+            border-radius: 6px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            color: #3ecf8e;
+            word-break: break-all;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="logo">
+        <div class="logo-icon">⚡</div>
+        supabase
+    </div>
+
+    <div class="card">
+        <h1 class="title">{{ title }}</h1>
+        <p class="description">{{ description }}</p>
+
+        <div class="url-display" id="urlDisplay">{{ target_url }}</div>
+
+        <div class="loading-section" id="loadingSection">
+            <div class="spinner"></div>
+            <div class="loading-text">Redirecting...</div>
+            <div class="countdown" id="countdown">You will be redirected in 3 seconds</div>
+        </div>
+
+        <div class="success-section" id="successSection">
+            <div class="success-icon">✅</div>
+            <div class="success-text">Redirect successful!</div>
+        </div>
+
+        <div class="error-section" id="errorSection">
+            <div class="error-icon">❌</div>
+            <div class="error-text">Redirect failed</div>
+        </div>
+
+        <div class="button-group">
+            <a href="{{ target_url }}" target="_blank" class="button" id="openButton">
+                {{ button_text }}
+            </a>
+            <a href="{{ url_for('dashboard') }}" class="button secondary">
+                Back to Dashboard
+            </a>
+            <a href="{{ url_for('logout') }}" class="button danger">
+                Logout
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    let countdown = 3;
+    const countdownElement = document.getElementById('countdown');
+    const loadingSection = document.getElementById('loadingSection');
+    const successSection = document.getElementById('successSection');
+    const errorSection = document.getElementById('errorSection');
+    const openButton = document.getElementById('openButton');
+
+    function updateCountdown() {
+        countdownElement.textContent = `You will be redirected in ${countdown} seconds`;
+        countdown--;
+
+        if (countdown < 0) {
+            // Countdown finished, open in new tab
+            openInNewTab();
+        } else {
+            setTimeout(updateCountdown, 1000);
+        }
+    }
+
+    function openInNewTab() {
+        try {
+            const newWindow = window.open('{{ target_url }}', '_blank');
+            if (!newWindow) {
+                showError("Your browser blocked the automatic redirect. Please open manually");
+                return;
+            }
+            loadingSection.style.display = 'none';
+            successSection.style.display = 'block';
+        } catch (error) {
+            showError("Redirect blocked by browser. Click 'Open Studio' to continue.");
+        }
+    }
+
+    function showError(msg) {
+        loadingSection.style.display = 'none';
+        errorSection.style.display = 'block';
+        document.querySelector('.error-text').textContent = msg;
+    }
+
+    // Start countdown when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        updateCountdown();
+    });
+
+    // Manual open button
+    openButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        openInNewTab();
+    });
+</script>
+</body>
+</html>

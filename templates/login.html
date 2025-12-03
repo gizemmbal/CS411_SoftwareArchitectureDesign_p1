@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <title>Supabase Login</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      padding: 2rem;
+    }
+
+    .logo-section {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 24px;
+      height: 24px;
+      background: #3ecf8e;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .welcome-text {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .welcome-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-subtitle {
+      font-size: 1rem;
+      color: #a0a0a0;
+    }
+
+    .login-form {
+      background: #2a2a2a;
+      border-radius: 12px;
+      padding: 2rem;
+      border: 1px solid #3a3a3a;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      background: #1a1a1a;
+      border: 1px solid #3a3a3a;
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #3ecf8e;
+      box-shadow: 0 0 0 3px rgba(62, 207, 142, 0.1);
+    }
+
+    .form-input::placeholder {
+      color: #6b7280;
+    }
+
+    .password-container {
+      position: relative;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #6b7280;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 4px;
+      transition: color 0.2s ease;
+    }
+
+    .password-toggle:hover {
+      color: #ffffff;
+    }
+
+    .forgot-password {
+      text-align: right;
+      margin-top: 0.5rem;
+    }
+
+    .forgot-password a {
+      color: #6b7280;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s ease;
+    }
+
+    .forgot-password a:hover {
+      color: #3ecf8e;
+    }
+
+    .login-button {
+      width: 100%;
+      background: #3ecf8e;
+      color: #000000;
+      border: none;
+      border-radius: 8px;
+      padding: 0.875rem 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 1rem;
+    }
+
+    .login-button:hover {
+      background: #2dd4aa;
+      transform: translateY(-1px);
+    }
+
+    .login-button:active {
+      transform: translateY(0);
+    }
+
+    .error-message {
+      background: #dc2626;
+      color: #ffffff;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+      border: 1px solid #ef4444;
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #a0a0a0;
+      font-size: 0.875rem;
+    }
+
+    .signup-link a {
+      color: #3ecf8e;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+
+    .hint {
+      background: #1a1a1a;
+      border: 1px solid #3a3a3a;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      font-size: 0.875rem;
+      color: #a0a0a0;
+      line-height: 1.5;
+    }
+
+    .hint strong {
+      color: #3ecf8e;
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 1rem;
+      }
+      
+      .login-form {
+        padding: 1.5rem;
+      }
+      
+      .welcome-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo-section">
+      <a href="#" class="logo">
+        <div class="logo-icon">⚡</div>
+        supabase
+      </a>
+    </div>
+
+    <div class="welcome-text">
+      <h1 class="welcome-title">Welcome back</h1>
+      <p class="welcome-subtitle">Sign in to your account</p>
+    </div>
+
+    <div class="login-form">
+      {% if error %}
+        <div class="error-message">{{ error }}</div>
+      {% endif %}
+
+      <form method="post" action="/login">
+        <div class="form-group">
+          <label for="email" class="form-label">Email</label>
+          <input 
+            type="email" 
+            id="email"
+            name="email" 
+            class="form-input" 
+            placeholder="you@example.com" 
+            required 
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="password-container">
+            <input 
+              type="password" 
+              id="password"
+              name="password" 
+              class="form-input" 
+              placeholder="Enter your password" 
+              required 
+              autocomplete="current-password"
+            />
+            <button type="button" class="password-toggle" onclick="togglePassword()">
+              👁️
+            </button>
+          </div>
+          <div class="forgot-password">
+            <a href="#" onclick="alert('Forgot password functionality not implemented yet')">Forgot Password?</a>
+          </div>
+        </div>
+
+        <button type="submit" class="login-button">
+          Sign In
+        </button>
+      </form>
+
+        <div class="signup-link">
+          Don't have an account? <a href="/signup">Sign Up Now</a>
+        </div>
+    </div>
+
+    <div class="hint">
+        <strong>For testing:</strong> First, go to Supabase Studio → <strong>Authentication</strong> → <strong>Add User</strong> to create a user.
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      const toggleButton = document.querySelector('.password-toggle');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleButton.textContent = '🙈';
+      } else {
+        passwordInput.type = 'password';
+        toggleButton.textContent = '👁️';
+      }
+    }
+
+    // Form validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      
+      if (!email || !password) {
+        e.preventDefault();
+        alert('Please fill in all fields');
+        return false;
+      }
+    });
+  </script>
+</body>
+</html>
